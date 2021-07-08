@@ -1,0 +1,27 @@
+version: "1"
+services:
+  order-service:
+    image: order-service
+    ports:
+      - "9001:9001"
+    networks:
+      - order-payment
+    depends_on:
+      - payment-service
+ 
+  payment-service:
+    image: payment-service
+    ports:
+      - "9002:9002"
+    networks:
+      - order-payment
+      
+  eureka-server:
+    image: raj2244/eureka-server:1.0
+    ports:
+      - "8761:8761"
+    networks:
+      - order-payment
+
+networks:
+  order-payment:

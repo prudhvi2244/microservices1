@@ -1,0 +1,46 @@
+server:
+  port: 9999
+
+spring:  application:    name: API-GATEWAY
+    
+      cloud:    gateway:      routes:      - id: ORDER-SERVICE
+        uri: lb://ORDER-SERVICE
+        predicates:          - Path=/order/**
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: ORDER-SERVICE
+              
+              
+      - id: PAYMENT-SERVICE
+        uri: lb://PAYMENT-SERVICE
+        predicates:
+          - Path=/payment/**
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: PAYMENT-SERVICE
+              
+      - id: ACCOUNTS-SERVICE
+        uri: lb://ACCOUNTS-SERVICE
+        predicates:
+          - Path=/account/**
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: ACCOUNTS-SERVICE
+              
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000     
+      
+        
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream          
