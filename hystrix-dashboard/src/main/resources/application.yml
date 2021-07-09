@@ -5,3 +5,12 @@ spring:  application:    name: HYSTRIX-DASHBOARD
 
       
 hystrix:  dashboard:    proxy-stream-allow-list: "*"
+    
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://13.234.113.166:8761/eureka
+  instance:
+    hostname: 13.234.113.166:8761

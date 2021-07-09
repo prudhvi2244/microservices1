@@ -2,10 +2,10 @@ package com.example.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.common.Payment;
 import com.example.demo.common.TransactionResponse;
+import com.example.demo.feign.client.PaymentFeignClient;
 import com.example.demo.model.Order;
 import com.example.demo.repo.OrderRepository;
 
@@ -16,10 +16,9 @@ public class OrderServiceImpl implements IOrderService {
 	private OrderRepository orepo;
 
 	@Autowired
-	private RestTemplate restTemplate;
+	private PaymentFeignClient paymentFeignClient;
 	
-	@Value("${payment.url}")
-	private String url;
+
 	
 	@Value("${product.price}")
 	private String price;
@@ -35,8 +34,7 @@ public class OrderServiceImpl implements IOrderService {
 		Payment payment = new Payment();
 		payment.setAmount(finalPrice);
 		payment.setOrder_id(savedOrder.getOrder_id());
-		Payment savedPayment = restTemplate.postForObject(url, payment,
-				Payment.class);
+		Payment savedPayment=paymentFeignClient.makePayment(payment);
 
 		TransactionResponse response = new TransactionResponse();
 		response.setAmount(finalPrice);

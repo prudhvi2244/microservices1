@@ -1,6 +1,3 @@
-payment:
-  url: http://PAYMENT-SERVICE:9002/payment/makePayment
-
 product:
   price: 56000.525
 
@@ -12,5 +9,12 @@ spring:  application:    name: ORDER-SERVICE
     
   jpa:    show-sql: true
       h2:    console:      enabled: true
-        datasource:    url: jdbc:h2:mem:testdb  config:    import: optional:configserver:http://localhost:9555
-      
+        datasource:    url: jdbc:h2:mem:testdb
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://65.0.133.155:8761/eureka
+  instance:
+    hostname: 65.0.133.155:8761

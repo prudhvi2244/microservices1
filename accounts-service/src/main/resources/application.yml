@@ -5,9 +5,16 @@ spring:  application:    name: ACCOUNTS-SERVICE
       h2:    console:      enabled: true
         datasource:    url: jdbc:h2:mem:testdb
   jpa:    show-sql: true
-    
-  config:
-    import: optional:configserver:http://localhost:9555
+
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://13.234.113.166:8761/eureka
+  instance:
+    hostname: 13.234.113.166:8761
     
     
 

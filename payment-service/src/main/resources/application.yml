@@ -6,9 +6,14 @@ spring:  application:    name: PAYMENT-SERVICE
         datasource:    url: jdbc:h2:mem:testdb
   jpa:    show-sql: true
     
-  config:
-    import: optional:configserver:http://localhost:9555
-    
-    
+   
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://65.0.133.155:8761/eureka
+  instance:
+    hostname: 65.0.133.155:8761
 
 
